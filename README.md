@@ -1,0 +1,99 @@
+# example  #include <iostream>
+#include <string>
+
+using namespace std;
+
+template<class T>
+class obj
+{
+public:
+    obj(T val) {value = val;}
+    T value;
+    obj<T>* next = NULL;
+    obj<T>* previous = NULL;
+};
+
+template<class T>
+class Stack
+{
+  obj<T>* ptrAtBegin = NULL;
+  obj<T>* ptrAtEnd = NULL;
+
+public:
+   Stack(){}
+
+   void push(T);
+   void pop();
+   void getStack();
+   int size = 0;
+};
+
+template<class T>
+void  Stack <T>::push(T object)
+{
+
+    obj<T> *newObj = new obj<T>(object);
+    newObj->value = object;
+    newObj->previous = ptrAtEnd;
+    if (size>0){
+    ptrAtEnd->next = newObj;
+    }
+    else
+    {
+        ptrAtBegin = newObj;
+    }
+    ptrAtEnd = newObj;
+
+    size++;
+
+}
+
+template<class T>
+void Stack<T>::pop()
+{
+    ptrAtEnd = ptrAtEnd->previous;
+    delete ptrAtEnd->next;
+    ptrAtEnd->next = NULL;
+    size--;
+}
+
+template<class T>
+void Stack<T>::getStack()
+{
+    obj<T>* current;
+    current = ptrAtBegin;
+    if (current == NULL)
+    {
+        cout << "Стек пуст!";
+    }
+    while (current != NULL)
+    {
+        cout << current->value << endl;
+        current = current->next;
+    }
+}
+
+
+int main(int argc, char* argv[])
+{
+    Stack <int> stack;
+    stack.getStack();
+    cout << endl;
+    stack.push(5);
+    stack.push(7);
+    stack.pop();
+    stack.getStack();
+
+    cout << endl;
+    Stack <double> stack2;
+    stack2.push(0.5);
+    stack2.getStack();
+
+    cout << endl;
+    Stack <string> stack3;
+    stack3.push("Test");
+    stack3.getStack();
+
+
+    return 0;
+}
